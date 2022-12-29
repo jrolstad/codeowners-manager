@@ -13,3 +13,8 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+.idea/*
+.terraform/
+.terraform.lock.hcl
+.DS_Store

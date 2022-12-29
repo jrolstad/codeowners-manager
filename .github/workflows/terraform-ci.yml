@@ -1,0 +1,38 @@
+name: terraform-continuous-integration
+
+on:
+  workflow_dispatch:
+  push:
+    branches: '**'
+    paths:
+      - 'deployments/infra/**'
+  pull_request:
+    branches: '**'
+    paths:
+      - 'deployments/infra/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./deployments/infra
+        shell: bash
+    environment: development
+    env:
+      working-directory: ./deployments/infra
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init -backend=false
+        working-directory: ./deployments/infra
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ./deployments/infra
